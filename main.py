@@ -1,5 +1,6 @@
 import subprocess
 import pathlib
+import pylavor
 import glob
 import os
 
@@ -28,6 +29,30 @@ def get_dir_in_path(my_path):
             d_list.append(file)     
 
     return d_list
+
+def add_main_dir(m_dir):
+    #check if given directory exists
+    if not os.path.isdir(m_dir):
+        return False
+    else:
+        json_maste_file = "master_dirs.json"
+        master_directories = None
+
+        if not os.path.isfile("data/" + json_maste_file):
+            master_json = {}
+            pylavor.json_write("data", json_maste_file, master_json)
+        else:
+            master_directories = pylavor.json_read("data", json_maste_file)
+
+            for i, b in master_directories.items():
+                if i == m_dir:
+                    return False
+
+
+
+    
+
+
 
 def play_video(video_path):
     process = subprocess.Popen([VLC_PATH, VLC_SET, video_path])
